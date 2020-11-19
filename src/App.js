@@ -5,22 +5,23 @@ import Container from '@material-ui/core/Container';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-//import BottomNavigation from '@material-ui/core/BottomNavigation';
-//import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-//import RestoreIcon from '@material-ui/icons/Restore';
-//import FolderIcon from '@material-ui/icons/Folder';
-//import FavoriteIcon from '@material-ui/icons/Favorite';
-//import LocationOnIcon from '@material-ui/icons/LocationOn';
-import TextField from '@material-ui/core/TextField';
+import Counter from "./components/Counter";
+import Counter2 from "./components/Counter2";
 import './App.css';
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
-    console.log("[Constructor]");
+    console.log("%c[App] Constructor", "color:orange");
     super(props);
-    this.state = {
-      count: 0
-    };
+    console.log("%c[App] state - " + this.state.count, "color:orange")
+  }
+
+  static getDerivedStateFromProps(props) {
+    //console.group('Lifecycle');
+    console.log("%c[App] static getDerivedStateFromProps()]", "color:orange");
+    console.log("%c[App]" + "%c side effect - write something from props to state", "color:orange", "color:green");
+    const {something} = {something:props};
+    return {something};
   }
 
   componentDidMount() {
@@ -28,7 +29,7 @@ class App extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log("result",result);
+          //console.log("result",result);
           this.setState({
             count: parseInt(result.count)
           });
@@ -37,79 +38,76 @@ class App extends React.Component {
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (error) => {
-          console.log("error",error);
+          console.error("error", error);
         }
-      )
-    console.log("[componentDidMount]");
-    console.groupEnd();
+      );
+    console.log("%c[App] componentDidMount", "color:orange");
+    //console.log("");
+    //eslint-disable-next-line no-useless-concat
+    console.log("%c[App]" + "%c side effect - update state(component after request)", "color:orange", "color:green");
+    //console.log("");
+    //console.groupEnd();
   }
 
-  shouldComponentUpdate(nextProps,nextState,nextContext) {
-    if (nextState.count <= 25 && nextState.count >= -25) {
-      console.log("nextState",nextState.count);
-      console.log("[shouldComponentUpdate() true]");
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (true) {
+      console.log("%c[App] shouldComponentUpdate() - true", "color:orange");
+      console.log("%c[App] nextState - " + nextState.count, "color:orange");
       return true;
     }
     else {
-      console.log("nextState",nextState.count);
-      console.log("[shouldComponentUpdate() false]");
-      console.groupEnd();
+      console.log("%c[App] shouldComponentUpdate() - false", "color:orange");
+      console.log("%c[App] nextState - " + nextState.count, "color:orange");
+      //console.groupEnd();
       return false
     }
   }
 
-  componentDidUpdate(prevProps,prevState,snapshot) {
-    console.log("prevState",prevState.count);
-    console.log("[componentDidUpdate()]");
-    console.groupEnd();
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("%c[App] componentDidUpdate()", "color:orange");
+    console.log("%c[App] prevState - " + prevState.count, "color:orange");
+    //console.log("");
+    //console.groupEnd();
+
+    //for demonstrate not use setState here
+    //this.setState({count:1})
   }
 
   componentWillUnmount() {
-    console.groupEnd();
-    console.group("Lifecycle end");
-    console.log("[componentWillUnmount()]");
-    console.groupEnd();
+    //console.groupEnd();
+    //console.group("Lifecycle end");
+    console.log("");
+    console.log("%c[App] componentWillUnmount()", "color:orange");
+    //console.groupEnd();
   }
 
   changeCount(operator, value) {
-    //if (this.state.count <= 25) {
-      if (operator === "+") {
-        this.setState({
-          count: this.state.count + value
-        }, ()=>console.log("setState() callback"))
-      }
-    //}
-    //if (this.state.count >= -25) {
-      if (operator === "-") {
-        this.setState({
-          count: this.state.count - value
-        }, ()=>console.log("setState() callback"))
-      }
-    //}
+    if (operator === "+") {
+      this.setState({
+        count: this.state.count + value
+      }, () => console.log("%c[App] setState() callback", "color:orange"))
+    }
+    if (operator === "-") {
+      this.setState({
+        count: this.state.count - value
+      }, () => console.log("%c[App] setState() callback", "color:orange"))
+    }
   }
 
-  static getDerivedStateFromProps() {
-    console.group('Lifecycle');
-    console.log("[static getDerivedStateFromProps()]");
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("%c[App] getSnapshotBeforeUpdate()]", "color:orange");
     return null;
   }
 
-  getSnapshotBeforeUpdate() {
-    console.log("[getSnapshotBeforeUpdate()]");
-    return null;
-  }
-
+  // methods
   handleClick() {
     unmountComponentAtNode(document.getElementById('root'));
   }
 
-  counterFiledChange(e) {
-    this.setState({count:e.target.value}, ()=>console.log("setState() callback"));
-  }
-
   render() {
-    console.log("[render()]");
-    console.log("state",this.state.count);
+    console.log("%c[App] render()", "color:orange");
+    console.log(this.state);
+    //console.log("state",this.state.count);
     return (
       <React.Fragment>
         <CssBaseline/>
@@ -120,15 +118,21 @@ class App extends React.Component {
                 alignItems={"center"}
           >
             <h1>Hello, <br/>React component lifecycle!</h1>
-            <form noValidate autoComplete="off">
-              <TextField id="counterFiled"
-                         variant={"outlined"}
-                         label="Count"
-                         type={"number"}
-                         value={this.state.count}
-                         onChange={(e) => this.counterFiledChange(e)}
-              />
-            </form>
+            <Counter count={this.state.count}/>
+            {/*todo why child not update after getSnapshot and whait parent getSnapshot*/}
+            {/*[Counter] static getDerivedStateFromProps()*!/*/}
+            {/*Counter.js:19 [Counter] shouldComponentUpdate() true*/}
+            {/*Counter2.js:39 [Counter2] static getDerivedStateFromProps()*/}
+            {/*Counter2.js:19 [Counter2] shouldComponentUpdate() true*/}
+            {/*Counter.js:44 [Counter] getSnapshotBeforeUpdate()*/}
+            {/*Counter2.js:44 [Counter2] getSnapshotBeforeUpdate()*/}
+            {/*App.js:98 [App] getSnapshotBeforeUpdate()]*/}
+            {/*Counter.js:31 [Counter] componentDidUpdate()*/}
+            {/*Counter2.js:31 [Counter2] componentDidUpdate()*/}
+            {/*App.js:67 [App] componentDidUpdate()*/}
+            {/*App.js:68 [App] prevState - 1*/}
+            {/*App.js:86 [App] setState() callback*/}
+            {/*<Counter2 count={this.state.count}/>*/}
             <ButtonGroup variant="contained" aria-label="contained primary button group">
               <Button onClick={() => this.changeCount("+", 1)} variant="contained" color="primary">
                 +1
@@ -147,16 +151,13 @@ class App extends React.Component {
             <Button onClick={() => this.handleClick()} variant="contained">Unmount</Button>
           </Grid>
         </Container>
-        {/*<BottomNavigation*/}
-        {/*  showLabels*/}
-        {/*>*/}
-        {/*  <BottomNavigationAction label="Favorites" value="favorites" icon={<FavoriteIcon />} />*/}
-        {/*  <BottomNavigationAction label="Nearby" value="nearby" icon={<LocationOnIcon />} />*/}
-        {/*  <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />*/}
-        {/*</BottomNavigation>*/}
       </React.Fragment>
     );
   }
+
+  state = {
+    count: '0'
+  };
 }
 
 export default App;

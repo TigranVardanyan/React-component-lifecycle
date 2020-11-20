@@ -61,7 +61,7 @@ class Counter extends Component {
                 <form noValidate autoComplete="off">
                     <TextField id="counterFiled"
                                variant={"outlined"}
-                               label="Count"
+                               label="Counter 1"
                                type={"number"}
                                value={this.props.count}
                                onChange={(e) => this.counterFiledChange(e)}

@@ -10,7 +10,9 @@ import Counter2 from "./components/Counter2";
 import './App.css';
 import Modal from "@material-ui/core/Modal";
 
+
 import styles from "./App.module.css";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 
 class App extends Component {
   constructor(props) {
@@ -136,10 +138,27 @@ class App extends Component {
             <button type="button" onClick={() =>this.showHideCounter()}>
               Open Modal
             </button>
-            <div className={this.state.counterOpened ? "" : styles.hidden}>
-              {console.log(styles.hidden)}
-              <Counter count={this.state.count} counterOpened={this.state.counterOpened}/>
-            </div>
+            <ToggleButton
+                value="check"
+                selected={this.state.selected}
+                onChange={() => {
+                  this.setState({selected:!this.state.selected});
+                }}
+                onClick={() =>this.showHideCounter()}
+            >
+              {this.state.selected ? "Close" : "Open"} Counter 1
+            </ToggleButton>
+            <Grid container
+                  justify="center"
+                  direction={"row"}
+                  alignItems={"center"}
+            >
+              <div className={this.state.counterOpened ? "" : styles.hidden}>
+                {console.log(styles.hidden)}
+                <Counter count={this.state.count} counterOpened={this.state.counterOpened}/>
+              </div>
+              <Counter2 count={this.state.count}/>
+            </Grid>
             {/*todo why child not update after getSnapshot and whait parent getSnapshot*/}
             {/*[Counter] static getDerivedStateFromProps()*!/*/}
             {/*Counter.js:19 [Counter] shouldComponentUpdate() true*/}
@@ -153,7 +172,6 @@ class App extends Component {
             {/*App.js:67 [App] componentDidUpdate()*/}
             {/*App.js:68 [App] prevState - 1*/}
             {/*App.js:86 [App] setState() callback*/}
-            {/*<Counter2 count={this.state.count}/>*/}
             <ButtonGroup variant="contained" aria-label="contained primary button group">
               <Button onClick={() => this.changeCount("+", 1)} variant="contained" color="primary">
                 +1

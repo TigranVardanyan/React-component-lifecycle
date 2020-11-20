@@ -5,14 +5,21 @@ import Container from '@material-ui/core/Container';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Counter from "./components/Counter";
+import Counter from "./components/Counter/Counter";
 import Counter2 from "./components/Counter2";
 import './App.css';
+import Modal from "@material-ui/core/Modal";
+
+import styles from "./App.module.css";
 
 class App extends Component {
   constructor(props) {
     console.log("%c[App] Constructor", "color:orange");
     super(props);
+    this.state = {
+      count: '0',
+      counterOpened: false
+    };
     console.log("%c[App] state - " + this.state.count, "color:orange")
   }
 
@@ -104,6 +111,14 @@ class App extends Component {
     unmountComponentAtNode(document.getElementById('root'));
   }
 
+  showHideCounter() {
+    if (this.state.counterOpened === true) {
+      this.setState({counterOpened: false})
+    } else {
+      this.setState({counterOpened: true})
+    }
+  }
+
   render() {
     console.log("%c[App] render()", "color:orange");
     console.log(this.state);
@@ -118,7 +133,13 @@ class App extends Component {
                 alignItems={"center"}
           >
             <h1>Hello, <br/>React component lifecycle!</h1>
-            <Counter count={this.state.count}/>
+            <button type="button" onClick={() =>this.showHideCounter()}>
+              Open Modal
+            </button>
+            <div className={this.state.counterOpened ? "" : styles.hidden}>
+              {console.log(styles.hidden)}
+              <Counter count={this.state.count} counterOpened={this.state.counterOpened}/>
+            </div>
             {/*todo why child not update after getSnapshot and whait parent getSnapshot*/}
             {/*[Counter] static getDerivedStateFromProps()*!/*/}
             {/*Counter.js:19 [Counter] shouldComponentUpdate() true*/}
@@ -154,10 +175,6 @@ class App extends Component {
       </React.Fragment>
     );
   }
-
-  state = {
-    count: '0'
-  };
 }
 
 export default App;

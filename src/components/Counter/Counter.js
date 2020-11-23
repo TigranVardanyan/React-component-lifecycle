@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import TextField from "@material-ui/core/TextField";
-import Modal from "@material-ui/core/Modal";
 
-import styles from "./Counter.css";
 class Counter extends Component {
     constructor(props) {
-        console.log("%c[Counter] Constructor", "color:blue");
         super(props);
+        console.log(`%c[Counter${this.props.nthCounter}] Constructor`, "color:blue");
         this.state = {
             count: 0,
             counterOpened: true
@@ -14,37 +12,38 @@ class Counter extends Component {
     }
 
     componentDidMount() {
-        console.log("%c[Counter] componentDidMount", "color:blue");
+        console.log(`%c[Counter${this.props.nthCounter}] componentDidMount`, "color:blue");
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (nextProps.counterOpened === true) {
             //console.log("nextState",nextState.count);
-            console.log("%c[Counter] shouldComponentUpdate() true", "color:blue");
+            console.log(`%c[Counter${this.props.nthCounter}] shouldComponentUpdate() true`, "color:blue");
             return true;
         } else {
             //console.log("nextState",nextState.count);
-            console.log("%c[Counter] shouldComponentUpdate() false", "color:blue");
+            console.log(`%c[Counter${this.props.nthCounter}] shouldComponentUpdate() false`, "color:blue");
             return false
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         //console.log("prevState",prevState.count);
-        console.log("%c[Counter] componentDidUpdate()", "color:blue");
+        console.log(`%c[Counter${this.props.nthCounter}] componentDidUpdate()`, "color:blue");
+        console.log("")
     }
 
     componentWillUnmount() {
-        console.log("%c[Counter] componentWillUnmount()", "color:blue");
+        console.log(`%c[Counter${this.props.nthCounter}] componentWillUnmount()`, "color:blue");
     }
 
-    static getDerivedStateFromProps() {
-        console.log("%c[Counter] static getDerivedStateFromProps()", "color:blue");
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log(`%c[Counter${nextProps.nthCounter}] static getDerivedStateFromProps()`, "color:blue");
         return null;
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log("%c[Counter] getSnapshotBeforeUpdate()", "color:blue");
+        console.log(`%c[Counter${this.props.nthCounter}] getSnapshotBeforeUpdate()`, "color:blue");
         return null;
     }
 
@@ -57,11 +56,11 @@ class Counter extends Component {
 
     render() {
         return (
-
                 <form noValidate autoComplete="off">
+                    {console.log(`%c[Counter${this.props.nthCounter}] render()`, "color:blue")}
                     <TextField id="counterFiled"
                                variant={"outlined"}
-                               label="Counter 1"
+                               label={`Counter ${this.props.nthCounter}`}
                                type={"number"}
                                value={this.props.count}
                                onChange={(e) => this.counterFiledChange(e)}

@@ -6,7 +6,6 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Counter from "./components/Counter/Counter";
-import Counter2 from "./components/Counter2";
 import './App.css';
 import Modal from "@material-ui/core/Modal";
 
@@ -20,7 +19,7 @@ class App extends Component {
     super(props);
     this.state = {
       count: '0',
-      counterOpened: false
+      counterOpened: true
     };
     console.log("%c[App] state - " + this.state.count, "color:orange")
   }
@@ -28,7 +27,7 @@ class App extends Component {
   static getDerivedStateFromProps(props) {
     //console.group('Lifecycle');
     console.log("%c[App] static getDerivedStateFromProps()]", "color:orange");
-    console.log("%c[App]" + "%c side effect - write something from props to state", "color:orange", "color:green");
+    console.log("%c[App]" + "%c side effect - write something from props to state?????????/", "color:orange", "color:green");
     const {something} = {something:props};
     return {something};
   }
@@ -56,26 +55,30 @@ class App extends Component {
     console.log("%c[App]" + "%c side effect - update state(component after request)", "color:orange", "color:green");
     //console.log("");
     //console.groupEnd();
+    // console.log('````````````````',this.state)
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     if (true) {
       console.log("%c[App] shouldComponentUpdate() - true", "color:orange");
       console.log("%c[App] nextState - " + nextState.count, "color:orange");
+      // console.log('````````````````',this.state)
       return true;
     }
     else {
       console.log("%c[App] shouldComponentUpdate() - false", "color:orange");
       console.log("%c[App] nextState - " + nextState.count, "color:orange");
+      // console.log('````````````````',this.state)
       //console.groupEnd();
       return false
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    // console.log('````````````````',this.state)
     console.log("%c[App] componentDidUpdate()", "color:orange");
     console.log("%c[App] prevState - " + prevState.count, "color:orange");
-    //console.log("");
+    console.log("");
     //console.groupEnd();
 
     //for demonstrate not use setState here
@@ -104,6 +107,7 @@ class App extends Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
+    // console.log('````````````````',this.state)
     console.log("%c[App] getSnapshotBeforeUpdate()]", "color:orange");
     return null;
   }
@@ -123,10 +127,11 @@ class App extends Component {
 
   render() {
     console.log("%c[App] render()", "color:orange");
-    console.log(this.state);
+    // console.log(this.state);
     //console.log("state",this.state.count);
     return (
       <React.Fragment>
+        {console.log('````````````````', this.state)}
         <CssBaseline/>
         <Container maxWidth="sm">
           <Grid container
@@ -135,9 +140,6 @@ class App extends Component {
                 alignItems={"center"}
           >
             <h1>Hello, <br/>React component lifecycle!</h1>
-            <button type="button" onClick={() =>this.showHideCounter()}>
-              Open Modal
-            </button>
             <ToggleButton
                 value="check"
                 selected={this.state.selected}
@@ -154,10 +156,10 @@ class App extends Component {
                   alignItems={"center"}
             >
               <div className={this.state.counterOpened ? "" : styles.hidden}>
-                {console.log(styles.hidden)}
-                <Counter count={this.state.count} counterOpened={this.state.counterOpened}/>
+                {/*{console.log(styles.hidden)}*/}
+                <Counter count={this.state.count} counterOpened={this.state.counterOpened} nthCounter={1}/>
               </div>
-              <Counter2 count={this.state.count}/>
+              <Counter count={this.state.count} counterOpened={true} nthCounter={2}/>
             </Grid>
             {/*todo why child not update after getSnapshot and whait parent getSnapshot*/}
             {/*[Counter] static getDerivedStateFromProps()*!/*/}

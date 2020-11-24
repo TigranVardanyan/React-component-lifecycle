@@ -1,13 +1,17 @@
 import React, {Component} from 'react'
 import TextField from "@material-ui/core/TextField";
 
+
+import styles from "./Counter.module.css";
+
 class Counter extends Component {
     constructor(props) {
         super(props);
         console.log(`%c[Counter${this.props.nthCounter}] Constructor`, "color:blue");
         this.state = {
             count: 0,
-            counterOpened: true
+            counterOpened: true,
+            selfCount: false,
         };
     }
 
@@ -16,9 +20,15 @@ class Counter extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (nextProps.counterOpened === true) {
+        console.log("this.state", this.state)
+        console.log("nextState", nextState)
+        console.log("this.props", this.props)
+        console.log("nextProps", nextProps)
+        if ((nextProps.counterOpened === true && (this.props.count !== nextProps.count)) ||
+            (this.props.counterOpened === false && nextProps.counterOpened === true && this.state.selfCount !== nextProps.count)) {
             //console.log("nextState",nextState.count);
             console.log(`%c[Counter${this.props.nthCounter}] shouldComponentUpdate() true`, "color:blue");
+            this.setState({selfCount:nextProps.count})
             return true;
         } else {
             //console.log("nextState",nextState.count);
@@ -37,8 +47,9 @@ class Counter extends Component {
         console.log(`%c[Counter${this.props.nthCounter}] componentWillUnmount()`, "color:blue");
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(`%c[Counter${nextProps.nthCounter}] static getDerivedStateFromProps()`, "color:blue");
+    static getDerivedStateFromProps(props) {
+        console.log(`%c[Counter${props.nthCounter}] static getDerivedStateFromProps()`, "color:blue");
+        // const {selfCount} = {selfCount: props.count};
         return null;
     }
 
@@ -49,23 +60,29 @@ class Counter extends Component {
 
     // methods
 
-    counterFiledChange(e) {
-        this.setState({count: e.target.value}, () => console.log("setState() callback"));
+    sendData = (count) => {
+        count = parseInt(count)
+        console.log("count +-", count)
+        this.props.parentCallback(count);
     }
 
 
     render() {
         return (
-                <form noValidate autoComplete="off">
-                    {console.log(`%c[Counter${this.props.nthCounter}] render()`, "color:blue")}
-                    <TextField id="counterFiled"
-                               variant={"outlined"}
-                               label={`Counter ${this.props.nthCounter}`}
-                               type={"number"}
-                               value={this.props.count}
-                               onChange={(e) => this.counterFiledChange(e)}
-                    />
-                </form>
+            <form
+                noValidate
+                autoComplete="off"
+                className={styles.counter}
+            >
+                {console.log(`%c[Counter${this.props.nthCounter}] render()`, "color:blue")}
+                <TextField id="counterFiled"
+                           variant={"outlined"}
+                           label={`Counter ${this.props.nthCounter}`}
+                           type={"number"}
+                           value={this.props.count}
+                           onChange={(e) => this.sendData(e.target.value)}
+                />
+            </form>
 
         )
     }

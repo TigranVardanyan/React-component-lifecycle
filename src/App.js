@@ -142,7 +142,7 @@ class App extends Component {
                           direction={"column"}
                           alignItems={"center"}
                     >
-                        <h1>Hello, <br/>React component lifecycle!</h1>
+                        <h1 className={styles.heading}>Hello, <br/>React component lifecycle!</h1>
                         <ToggleButton
                             value="check"
                             selected={this.state.selected}
@@ -178,11 +178,11 @@ class App extends Component {
                             <p>{this.state.message}</p>
                         </Grid>
                         <ButtonGroup variant="contained" aria-label="contained primary button group">
-                            <Button onClick={() => this.changeCount("+", 1)} variant="contained" color="primary">
-                                +1
-                            </Button>
                             <Button onClick={() => this.changeCount("+", 5)} variant="contained" color="primary">
                                 +5
+                            </Button>
+                            <Button onClick={() => this.changeCount("+", 1)} variant="contained" color="primary">
+                                +1
                             </Button>
                             <Button onClick={() => this.changeCount("-", 5)} variant="contained" color="secondary">
                                 -5

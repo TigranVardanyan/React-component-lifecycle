@@ -11,15 +11,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-//what do with async setstate
-
-//this.setState((prevState) => {
-//    console.log(prevState);
-//    return {
-//      showSideDrawer: !prevState.showSideDrawer
-//    }
-//  }
-//);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

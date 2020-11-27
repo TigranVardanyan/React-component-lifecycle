@@ -22,19 +22,16 @@ class Counter extends Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if ((nextProps.counterOpened === true && (this.props.count !== nextProps.count)) ||
             (this.props.counterOpened === false && nextProps.counterOpened === true && this.state.selfCount !== nextProps.count)) {
-            //console.log("nextState",nextState.count);
             console.log(`%c[Counter${this.props.nthCounter}] shouldComponentUpdate() true`, "color:blue");
             this.setState({selfCount:nextProps.count})
             return true;
         } else {
-            //console.log("nextState",nextState.count);
             console.log(`%c[Counter${this.props.nthCounter}] shouldComponentUpdate() false`, "color:blue");
             return false
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        //console.log("prevState",prevState.count);
         console.log(`%c[Counter${this.props.nthCounter}] componentDidUpdate()`, "color:blue");
         console.log("")
     }
@@ -45,7 +42,6 @@ class Counter extends Component {
 
     static getDerivedStateFromProps(props) {
         console.log(`%c[Counter${props.nthCounter}] static getDerivedStateFromProps()`, "color:blue");
-        // const {selfCount} = {selfCount: props.count};
         return null;
     }
 

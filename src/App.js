@@ -95,13 +95,17 @@ class App extends Component {
 
     changeCount(operator, value) {
         if (operator === "+") {
-            this.setState({
-                count: this.state.count + value
+            this.setState((prevState) => {
+                return {
+                    count: prevState.count + value
+                }
             }, () => console.log("%c[App] setState() callback", "color:orange"))
         }
         if (operator === "-") {
-            this.setState({
-                count: this.state.count - value
+            this.setState((prevState) => {
+                return {
+                    count: prevState.count - value
+                }
             }, () => console.log("%c[App] setState() callback", "color:orange"))
         }
     }
@@ -126,7 +130,11 @@ class App extends Component {
                             value="check"
                             selected={this.state.selected}
                             onChange={() => {
-                                this.setState({selected: !this.state.selected});
+                                this.setState((prevState) => {
+                                    return {
+                                        selected: !prevState.selected
+                                    }
+                                })
                             }}
                             onClick={() => this.showHideCounter()}
                         >

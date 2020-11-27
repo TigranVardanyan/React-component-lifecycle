@@ -25,7 +25,6 @@ class App extends Component {
     }
 
     static getDerivedStateFromProps(props) {
-//console.group('Lifecycle');
         console.log("%c[App] static getDerivedStateFromProps()]", "color:orange");
         console.log("%c[App]" + "%c side effect - write something from props to state?????????/", "color:orange", "color:green");
         const {something} = {something: props};
@@ -33,67 +32,50 @@ class App extends Component {
     }
 
     componentDidMount() {
-        fetch("https://api.mocki.io/v1/cc7dcf62") //return {"count":"1"}
+        fetch("https://api.mocki.io/v1/cc7dcf62") //return {"key":"value"}
             .then(res => res.json())
             .then(
                 (result) => {
-//console.log("result",result);
                     this.setState({
                         count: parseInt(result.count)
                     });
                 },
-// Note: it's important to handle errors here
-// instead of a catch() block so that we don't swallow
-// exceptions from actual bugs in components.
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
                 (error) => {
                     console.error("error", error);
                 }
             );
         console.log("%c[App] componentDidMount", "color:orange");
-//console.log("");
-//eslint-disable-next-line no-useless-concat
+        //eslint-disable-next-line no-useless-concat
         console.log("%c[App]" + "%c side effect - update state(component after request)", "color:orange", "color:green");
-//console.log("");
-//console.groupEnd();
-// console.log('````````````````',this.state)
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (true) {
             console.log("%c[App] shouldComponentUpdate() - true", "color:orange");
             console.log("%c[App] nextState - " + nextState.count, "color:orange");
-// console.log('````````````````',this.state)
             return true;
         } else {
             console.log("%c[App] shouldComponentUpdate() - false", "color:orange");
             console.log("%c[App] nextState - " + nextState.count, "color:orange");
-// console.log('````````````````',this.state)
-//console.groupEnd();
             return false
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-// console.log('````````````````',this.state)
         console.log("%c[App] componentDidUpdate()", "color:orange");
         console.log("%c[App] prevState - " + prevState.count, "color:orange");
         console.log("");
-//console.groupEnd();
-
-//for demonstrate not use setState here
-//this.setState({count:1})
     }
 
     componentWillUnmount() {
-//console.groupEnd();
-//console.group("Lifecycle end");
         console.log("");
         console.log("%c[App] componentWillUnmount()", "color:orange");
-//console.groupEnd();
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
-// console.log('````````````````',this.state)
         console.log("%c[App] getSnapshotBeforeUpdate()]", "color:orange");
         return null;
     }
@@ -113,13 +95,17 @@ class App extends Component {
 
     changeCount(operator, value) {
         if (operator === "+") {
-            this.setState({
-                count: this.state.count + value
+            this.setState((prevState) => {
+                return {
+                    count: prevState.count + value
+                }
             }, () => console.log("%c[App] setState() callback", "color:orange"))
         }
         if (operator === "-") {
-            this.setState({
-                count: this.state.count - value
+            this.setState((prevState) => {
+                return {
+                    count: prevState.count - value
+                }
             }, () => console.log("%c[App] setState() callback", "color:orange"))
         }
     }
@@ -130,11 +116,8 @@ class App extends Component {
 
     render() {
         console.log("%c[App] render()", "color:orange");
-// console.log(this.state);
-// console.log("state",this.state.count);
         return (
             <React.Fragment>
-                {console.log('````````````````', this.state)}
                 <CssBaseline/>
                 <Container maxWidth="sm">
                     <Grid container
@@ -142,12 +125,16 @@ class App extends Component {
                           direction={"column"}
                           alignItems={"center"}
                     >
-                        <h1 className={styles.heading}>Hello, <br/>React component lifecycle!</h1>
+                        <h1 className={styles.heading}>Hello, <br/>React component <br/>state and lifecycle!</h1>
                         <ToggleButton
                             value="check"
                             selected={this.state.selected}
                             onChange={() => {
-                                this.setState({selected: !this.state.selected});
+                                this.setState((prevState) => {
+                                    return {
+                                        selected: !prevState.selected
+                                    }
+                                })
                             }}
                             onClick={() => this.showHideCounter()}
                         >
@@ -158,8 +145,6 @@ class App extends Component {
                               direction={"row"}
                               alignItems={"center"}
                         >
-
-                            {/*{console.log(styles.hidden)}*/}
                             <div className={this.state.counterOpened ? "" : styles.hidden}>
                                 <Counter
                                     count={this.state.count}
@@ -174,7 +159,6 @@ class App extends Component {
                                 nthCounter={2}
                                 parentCallback={this.callbackFunction}
                             />
-
                             <p>{this.state.message}</p>
                         </Grid>
                         <ButtonGroup variant="contained" aria-label="contained primary button group">

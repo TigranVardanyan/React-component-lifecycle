@@ -110,7 +110,7 @@ class App extends Component {
         }
     }
 
-    callbackFunction = (count) => {
+    counterInputChange = (count) => {
         this.setState({count: count})
     }
 
@@ -150,14 +150,14 @@ class App extends Component {
                                     count={this.state.count}
                                     counterOpened={this.state.counterOpened}
                                     nthCounter={1}
-                                    parentCallback={this.callbackFunction}
+                                    selfChanges={this.counterInputChange}
                                 />
                             </div>
                             <Counter
                                 count={this.state.count}
                                 counterOpened={true}
                                 nthCounter={2}
-                                parentCallback={this.callbackFunction}
+                                selfChanges={this.counterInputChange}
                             />
                             <p>{this.state.message}</p>
                         </Grid>

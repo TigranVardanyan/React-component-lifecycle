@@ -52,9 +52,9 @@ class Counter extends Component {
 
     // methods
 
-    sendData = (count) => {
+    InInputChange = (count) => {
         count = parseInt(count)
-        this.props.parentCallback(count);
+        this.props.selfChanges(count);
     }
 
 
@@ -71,7 +71,7 @@ class Counter extends Component {
                            label={`Counter ${this.props.nthCounter}`}
                            type={"number"}
                            value={this.props.count}
-                           onChange={(e) => this.sendData(e.target.value)}
+                           onChange={(e) => this.InInputChange(e.target.value)}
                 />
             </form>
 

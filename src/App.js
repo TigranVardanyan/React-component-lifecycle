@@ -134,7 +134,6 @@ class App extends Component {
 // console.log("state",this.state.count);
         return (
             <React.Fragment>
-                {console.log('````````````````', this.state)}
                 <CssBaseline/>
                 <Container maxWidth="sm">
                     <Grid container
@@ -142,7 +141,7 @@ class App extends Component {
                           direction={"column"}
                           alignItems={"center"}
                     >
-                        <h1 className={styles.heading}>Hello, <br/>React component lifecycle!</h1>
+                        <h1 className={styles.heading}>Hello, <br/>React component <br/>state and lifecycle!</h1>
                         <ToggleButton
                             value="check"
                             selected={this.state.selected}

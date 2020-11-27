@@ -20,10 +20,6 @@ class Counter extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log("this.state", this.state)
-        console.log("nextState", nextState)
-        console.log("this.props", this.props)
-        console.log("nextProps", nextProps)
         if ((nextProps.counterOpened === true && (this.props.count !== nextProps.count)) ||
             (this.props.counterOpened === false && nextProps.counterOpened === true && this.state.selfCount !== nextProps.count)) {
             //console.log("nextState",nextState.count);
@@ -62,7 +58,6 @@ class Counter extends Component {
 
     sendData = (count) => {
         count = parseInt(count)
-        console.log("count +-", count)
         this.props.parentCallback(count);
     }
 

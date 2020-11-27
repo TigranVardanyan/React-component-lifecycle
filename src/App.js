@@ -80,7 +80,8 @@ class App extends Component {
         return null;
     }
 
-// methods
+    // methods
+
     handleClick() {
         unmountComponentAtNode(document.getElementById('root'));
     }

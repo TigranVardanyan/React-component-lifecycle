@@ -6,11 +6,18 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Counter from "./components/Counter/Counter";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 import './App.css';
 
 
 import styles from "./App.module.css";
 import ToggleButton from "@material-ui/lab/ToggleButton";
+import GetSnapshotBeforeUpdate from "./components/getSnapshotBeforeUpdate/getSnapshotBeforeUpdate";
 
 class App extends Component {
     constructor(props) {
@@ -115,71 +122,102 @@ class App extends Component {
         this.setState({count: count})
     }
 
+    receivingMessages = () => {
+        let message = document.createElement("div");
+        message.className = styles.message;
+        let messageText = document.createTextNode("Some new message");
+        message.appendChild(messageText);
+        document.getElementById("App").prepend(message);
+    }
+
     render() {
         console.log("%c[App] render()", "color:orange");
         return (
             <React.Fragment>
+                <Router>
+                    <div>
+                        <nav>
+                            <ul>
+                                <li>
+                                    <Link to="/">Home</Link>
+                                </li>
+                                <li>
+                                    <Link to="/GetSnapshotBeforeUpdate">GetSnapshotBeforeUpdate</Link>
+                                </li>
+                            </ul>
+                        </nav>
+                        <Switch>
+                            <Route path="/getSnapshotBeforeUpdate">
+                                <GetSnapshotBeforeUpdate />
+                            </Route>
+                            <Route path="/">
+                                <Container maxWidth="sm">
+                                    <Grid container
+                                          justify="center"
+                                          direction={"column"}
+                                          alignItems={"center"}
+                                    >
+
+                                        <h1 className={styles.heading}>Hello, <br/>React component <br/>state and lifecycle!</h1>
+                                        <ToggleButton
+                                          value="check"
+                                          selected={this.state.selected}
+                                          onChange={() => {
+                                              this.setState((prevState) => {
+                                                  return {
+                                                      selected: !prevState.selected
+                                                  }
+                                              })
+                                          }}
+                                          onClick={() => this.showHideCounter()}
+                                        >
+                                            {this.state.selected ? "Close" : "Open"} Counter 1
+                                        </ToggleButton>
+                                        <Grid container
+                                              justify="center"
+                                              direction={"row"}
+                                              alignItems={"center"}
+                                        >
+                                            <div className={this.state.counterOpened ? "" : styles.hidden}>
+                                                <Counter
+                                                  count={this.state.count}
+                                                  counterOpened={this.state.counterOpened}
+                                                  nthCounter={1}
+                                                  selfChanges={this.counterInputChange}
+                                                />
+                                            </div>
+                                            <Counter
+                                              count={this.state.count}
+                                              counterOpened={true}
+                                              nthCounter={2}
+                                              selfChanges={this.counterInputChange}
+                                            />
+                                            <p>{this.state.message}</p>
+                                        </Grid>
+                                        <ButtonGroup variant="contained" aria-label="contained primary button group">
+                                            <Button onClick={() => this.changeCount("+", 5)} variant="contained" color="primary">
+                                                +5
+                                            </Button>
+                                            <Button onClick={() => this.changeCount("+", 1)} variant="contained" color="primary">
+                                                +1
+                                            </Button>
+                                            <Button onClick={() => this.changeCount("-", 5)} variant="contained" color="secondary">
+                                                -5
+                                            </Button>
+                                            <Button onClick={() => this.changeCount("-", 10)} variant="contained" color="secondary">
+                                                -10
+                                            </Button>
+                                        </ButtonGroup>
+                                        <br/>
+                                        <Button onClick={() => this.handleClick()} variant="contained">Unmount</Button>
+                                    </Grid>
+                                </Container>
+                            </Route>
+                        </Switch>
+                    </div>
+                </Router>
                 <CssBaseline/>
-                <Container maxWidth="sm">
-                    <Grid container
-                          justify="center"
-                          direction={"column"}
-                          alignItems={"center"}
-                    >
-                        <h1 className={styles.heading}>Hello, <br/>React component <br/>state and lifecycle!</h1>
-                        <ToggleButton
-                            value="check"
-                            selected={this.state.selected}
-                            onChange={() => {
-                                this.setState((prevState) => {
-                                    return {
-                                        selected: !prevState.selected
-                                    }
-                                })
-                            }}
-                            onClick={() => this.showHideCounter()}
-                        >
-                            {this.state.selected ? "Close" : "Open"} Counter 1
-                        </ToggleButton>
-                        <Grid container
-                              justify="center"
-                              direction={"row"}
-                              alignItems={"center"}
-                        >
-                            <div className={this.state.counterOpened ? "" : styles.hidden}>
-                                <Counter
-                                    count={this.state.count}
-                                    counterOpened={this.state.counterOpened}
-                                    nthCounter={1}
-                                    selfChanges={this.counterInputChange}
-                                />
-                            </div>
-                            <Counter
-                                count={this.state.count}
-                                counterOpened={true}
-                                nthCounter={2}
-                                selfChanges={this.counterInputChange}
-                            />
-                            <p>{this.state.message}</p>
-                        </Grid>
-                        <ButtonGroup variant="contained" aria-label="contained primary button group">
-                            <Button onClick={() => this.changeCount("+", 5)} variant="contained" color="primary">
-                                +5
-                            </Button>
-                            <Button onClick={() => this.changeCount("+", 1)} variant="contained" color="primary">
-                                +1
-                            </Button>
-                            <Button onClick={() => this.changeCount("-", 5)} variant="contained" color="secondary">
-                                -5
-                            </Button>
-                            <Button onClick={() => this.changeCount("-", 10)} variant="contained" color="secondary">
-                                -10
-                            </Button>
-                        </ButtonGroup>
-                        <br/>
-                        <Button onClick={() => this.handleClick()} variant="contained">Unmount</Button>
-                    </Grid>
-                </Container>
+
             </React.Fragment>
         );
     }

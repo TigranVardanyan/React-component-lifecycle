@@ -1,0 +1,68 @@
+.App {
+  margin: 90px auto 0;
+  width: 320px;
+  height: 640px;
+  border: 5px solid black;
+  border-radius: 15px;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  text-align: center;
+  margin: 50px auto 0;
+  overflow: hidden;
+}
+
+.message {
+  padding: 5px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.messageeye {
+  padding: 5px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.messageeye:after {
+  content: '<-- You watch here';
+  display: block;
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  right: -87%;
+}
+
+img {
+  width: 35px;
+}
+
+.round {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.heading {
+  text-align: center;
+}

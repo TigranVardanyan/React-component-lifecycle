@@ -26,7 +26,7 @@ class App extends Component {
 
     static getDerivedStateFromProps(props) {
         console.log("%c[App] static getDerivedStateFromProps()]", "color:orange");
-        console.log("%c[App]" + "%c side effect - write something from props to state?????????/", "color:orange", "color:green");
+        console.log("%c[App]" + "%c write something from props to state", "color:orange", "color:green");
         const {something} = {something: props};
         return {something};
     }
